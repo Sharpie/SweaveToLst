@@ -31,7 +31,6 @@
 %
 %   * Re-define Schunk to execute the above to steps and then read in the
 %     final result using lstinputlisting.
-\makeatletter
 
 % We need to allocate some TeX variables
 \newread\sweave@tmpin % For reading input
@@ -182,6 +181,5 @@
   \lstinputlisting[style=sweavechunk]{\jobname.lstin}%
 }
 
-\makeatother
-
 \endinput
+
