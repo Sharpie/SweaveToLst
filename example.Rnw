@@ -1,0 +1,23 @@
+\documentclass{minimal}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{inconsolata}
+
+\usepackage{Sweave}
+\usepackage{sweavetolst}
+
+\begin{document}
+
+\noindent Hello, world!
+
+<<Hello,keep.source=TRUE>>=
+# Construction of a linear model
+x <- rnorm(10)
+y <- x + rnorm(5,sd=0.25)
+model <- lm(y ~ x)
+summary(model)
+@
+
+\end{document}
