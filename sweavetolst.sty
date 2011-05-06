@@ -68,18 +68,26 @@
 }
 
 % Verbatim redefines the catcodes of common LaTeX special characters so that it
-% can capture them. However, this means we can't match against patterns like
-% \begin{Sinput} that are defined outside of a environment where Verbatim has
-% altered catcodes. For some reason use of indentation will throw a wrench into
-% the definitions below.
+% can capture them. It does this by invoking `\let\do\@makeother` which defines
+% `\do` to be `\@makeother`---a macro that shifts the catcode of its argument
+% to 12 (the same catcode numbers have). `\dospecials` is then invoked which
+% applies `\do` to a bunch of characters:
+%
+%     \do \ \do \\\do \{\do \}\do \$\do \&\do \#\do \^\do \_\do \%\do \~
+%
+% In order to match against patterns like \begin{Sinput} within a verbatim
+% environment, we must define the patterns inside an environment that has the
+% same catcodes.
 \begingroup
-\let\do\@makeother
-\catcode`\|=0 \catcode`[=1 \catcode`]=2
-|dospecials
-|gdef|sweave@beginsinput[\begin{Sinput}]
-|gdef|sweave@endsinput[\end{Sinput}]
-|gdef|sweave@beginsoutput[\begin{Soutput}]
-|gdef|sweave@endsoutput[\end{Soutput}]
+  % Define replacement control character and begin/end braces.
+  \catcode`\|=0\catcode`[=1\catcode`]=2%
+  % Shift catcodes---not using \dospecials since we only need to change a
+  % couple of codes.
+  \catcode`\{=12\catcode`}=12\catcode`\\=12%
+  |gdef|sweave@beginsinput[\begin{Sinput}]
+  |gdef|sweave@endsinput[\end{Sinput}]
+  |gdef|sweave@beginsoutput[\begin{Soutput}]
+  |gdef|sweave@endsoutput[\end{Soutput}]
 |endgroup
 
 % This macro initiates a verbatim environment that writes it's contents
