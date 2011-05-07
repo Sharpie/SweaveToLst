@@ -3,16 +3,16 @@
 \RequirePackage{listings}
 \RequirePackage{xcolor}
 
-% listings formatting
-\lstset{extendedchars=false} % Don't try to interpret UTF8 characters
+% Basic formatting for the listings package
+\lstset{extendedchars=false} % Don't try to interpret UTF8 characters.
 \lstloadlanguages{R}
 
 \lstdefinestyle{sweavechunk}{
   language = R,
   basicstyle=\ttfamily,
-  % The hacked version of the Sweave output function inserts these tags
-  % around each output portion- we can grab them and apply formatting
-  % to everything inside.
+  % The Schunk environment is re-defined to replace the Sinput and Soutput
+  % sub-enviroments with custom delimiters. The code below allows listings to
+  % hook onto these delimiters.
   moredelim=[is][\color{gray}]
     {Swe@veBeginOutput}
     {Swe@veEndOutput},
@@ -20,8 +20,7 @@
     {Swe@veBeginInput}
     {Swe@veEndInput},
   showstringspaces = false,
-  upquote = false,
-  commentstyle = {\color{blue!70}\itshape}
+  upquote = false
 }
 
 
